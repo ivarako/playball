@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private StorageReference mStorageRef;
     private ProgressDialog mProgressDialog;
-    private boolean imageSetted = false;
+    private boolean imageSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,13 +107,13 @@ public class SignUpActivity extends AppCompatActivity {
                             user.setName(name);
                             user.setRadius(20);
 
-                            if(imageSetted) {
+                            if(imageSet) {
                                 mProgressDialog.setMessage("Creating a new profile...");
                                 mProgressDialog.show();
                             }
 
                             myRef.child("users").child(user.getId()).setValue(user);
-                            if(imageSetted)
+                            if(imageSet)
                                 uploadPhoto(user);
 
                             //pozovi sledeci activity
@@ -201,7 +201,7 @@ public class SignUpActivity extends AppCompatActivity {
         switch(requestCode) {
             case 0:
                 if(resultCode == RESULT_OK){
-                    imageSetted = true;
+                    imageSet = true;
                     Bitmap bitmap = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -217,7 +217,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             case 1:
                 if(resultCode == RESULT_OK){
-                    imageSetted = true;
+                    imageSet = true;
                     Uri imageUri = imageReturnedIntent.getData();
                     imageView.setImageURI(imageUri);
 
