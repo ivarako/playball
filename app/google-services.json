@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "650987937761",
+    "firebase_url": "https://playball-1bd7c.firebaseio.com",
+    "project_id": "playball-1bd7c",
+    "storage_bucket": "playball-1bd7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650987937761:android:7754cb5347fb1c69",
+        "android_client_info": {
+          "package_name": "elfakrs.mosis.iva.playball"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650987937761-shgflhs4cvuco6plj7k1g2ohdn5pipks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "elfakrs.mosis.iva.playball",
+            "certificate_hash": "eec71508489331bbfe708b266d87f824d01023c6"
+          }
+        },
+        {
+          "client_id": "650987937761-f5g9gl759hhqnjpfg88rgk67m5nmletj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1Wcae14cyo11FzZpM53UJ3DKomSmSpfk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650987937761-f5g9gl759hhqnjpfg88rgk67m5nmletj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
