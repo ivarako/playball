@@ -12,7 +12,7 @@ public class Game {
     private String longitude;
     private ArrayList<String> goingUsersID;
     private String creatorID;
-    private String photoURI;
+    private String tittle;
 
     public Game()
     {
@@ -76,12 +76,17 @@ public class Game {
         this.creatorID = creatorID;
     }
 
-    public String getPhotoURI() {
-        return photoURI;
+    public String getTittle() {
+        return tittle;
     }
 
-    public void setPhotoURI(String photoURI) {
-        this.photoURI = photoURI;
+    public void setTittle(String photoURI) {
+        this.tittle = photoURI;
+    }
+
+    public void addGoingUser(String id)
+    {
+        goingUsersID.add(id);
     }
 
 }

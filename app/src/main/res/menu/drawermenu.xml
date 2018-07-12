@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/itemMyProfile"
+        android:title="My profile"
+        android:icon="@drawable/baseline_face_black_24dp"/>
+
+    <item android:id="@+id/itemNewGame"
+        android:title="New game"
+        android:icon="@drawable/baseline_add_black_24dp" />
+
+    <item android:id="@+id/itemViewMap"
+        android:title="View map"
+        android:icon="@drawable/baseline_map_black_24dp" />
+
+    <item android:id="@+id/itemTheBest"
+        android:title="The best playballers"
+        android:icon="@drawable/baseline_star_rate_black_24dp" />
+
+    <item android:id="@+id/itemSettings"
+        android:title="Settings"
+        android:icon="@drawable/baseline_settings_black_24dp" />
+
+    <item android:id="@+id/itemLogOut"
+        android:title="Log out"
+        android:icon="@drawable/baseline_arrow_back_black_24dp"/>
+
+</menu>

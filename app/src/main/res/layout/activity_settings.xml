@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity"
+    android:orientation="vertical"
+    android:background="@drawable/balls">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share location with your friends"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <Switch
+            android:id="@+id/settingsLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allow notifications when app is off"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <Switch
+            android:id="@+id/settingsNotifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show games in a radius of"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/settingsRadius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/alert_light_frame"
+            android:text="20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="km"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show notifications for:"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="football  "
+        android:id="@+id/settingsFootball"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="130dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="basketball  "
+        android:id="@+id/settingsBasketball"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="115dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="volleyball  "
+        android:id="@+id/settingsVolleyball"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="120dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="others  "
+        android:id="@+id/settingsOthers"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="140dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp">
+
+        <Button
+            android:id="@+id/settingsSave"
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:background="@android:drawable/alert_light_frame"
+            android:text="Save"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:onClick="SettingsSave"/>
+
+        <Button
+            android:id="@+id/settingsDiscard"
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:background="@android:drawable/alert_light_frame"
+            android:text="Discard"
+            android:textSize="13sp"
+            android:onClick="SettingsDiscard"/>
+    </LinearLayout>
+
+
+</LinearLayout>

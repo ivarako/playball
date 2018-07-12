@@ -15,6 +15,16 @@ public class User {
     private String city;
     private int age;
     private float score;
+    private int numOfRatings;
+    private String longitude;
+    private String latitude;
+    private boolean notifications;
+    private boolean location;
+    private boolean football;
+    private boolean basketball;
+    private boolean volleyball;
+    private boolean others;
+
     private ArrayList<String> friendsID;
     private ArrayList<String> commentsID;
     private ArrayList<String> gamesID;
@@ -155,5 +165,98 @@ public class User {
     public void setGoingGamesID(ArrayList<String> goingGamesID) {
         this.goingGamesID = goingGamesID;
     }
+
+    public int getNumOfRatings() {
+        return numOfRatings;
+    }
+
+    public void setNumOfRatings(int numOfRatings) {
+        this.numOfRatings = numOfRatings;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+    }
+
+    public boolean isLocation() {
+        return location;
+    }
+
+    public void setLocation(boolean location) {
+        this.location = location;
+    }
+
+    public void addFriend(String id)
+    {
+        friendsID.add(id);
+    }
+
+    public void addComment(String id)
+    {
+        commentsID.add(id);
+    }
+
+    public void addCreatedGame(String id)
+    {
+        gamesID.add(id);
+    }
+
+    public void addGoingGame(String id)
+    {
+        goingGamesID.add(id);
+    }
+
+    public boolean isFootball() {
+        return football;
+    }
+
+    public void setFootball(boolean football) {
+        this.football = football;
+    }
+
+    public boolean isBasketball() {
+        return basketball;
+    }
+
+    public void setBasketball(boolean basketball) {
+        this.basketball = basketball;
+    }
+
+    public boolean isVolleyball() {
+        return volleyball;
+    }
+
+    public void setVolleyball(boolean volleyball) {
+        this.volleyball = volleyball;
+    }
+
+    public boolean isOthers() {
+        return others;
+    }
+
+    public void setOthers(boolean others) {
+        this.others = others;
+    }
+
 
 }

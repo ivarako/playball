@@ -71,8 +71,9 @@
             android:id="@+id/imgProfilePicture"
             android:layout_width="151dp"
             android:layout_height="142dp"
-            app:srcCompat="@drawable/avatar"
-            android:layout_marginLeft="30dp"/>
+            android:background="@drawable/back"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

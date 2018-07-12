@@ -71,7 +71,6 @@ public class SignUpActivity extends AppCompatActivity {
         EditText editTxtPassword = (EditText) findViewById(R.id.editTxtPassword);
         EditText editTxtPassword2 = (EditText) findViewById(R.id.editTxtPassword2);
         EditText editTxtName = (EditText) findViewById(R.id.editTxtName);
-        ImageView imageView = (ImageView) findViewById(R.id.imgProfilePicture);
 
         final String email = editTxtEmail.getText().toString();
         final String password = editTxtPassword.getText().toString();
@@ -106,17 +105,30 @@ public class SignUpActivity extends AppCompatActivity {
                             user.setPassword(password);
                             user.setName(name);
                             user.setRadius(20);
+                            user.setNotifications(true);
+                            user.setLocation(true);
+                            user.setFootball(true);
+                            user.setBasketball(true);
+                            user.setVolleyball(true);
+                            user.setOthers(true);
+                            user.setNumOfRatings(0);
+                            user.setScore(0);
+
+                            myRef.child("users").child(user.getId()).setValue(user);
 
                             if(imageSet) {
                                 mProgressDialog.setMessage("Creating a new profile...");
                                 mProgressDialog.show();
-                            }
-
-                            myRef.child("users").child(user.getId()).setValue(user);
-                            if(imageSet)
                                 uploadPhoto(user);
+                            }
+                            else
+                                Toast.makeText(SignUpActivity.this, "New profile created!", Toast.LENGTH_SHORT).show();
 
-                            //pozovi sledeci activity
+                            Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
+                            Bundle idBundle = new Bundle();
+                            idBundle.putString("userid", fbUser.getUid());
+                            i.putExtras(idBundle);
+                            startActivity(i);
 
                         } else {
                             Toast.makeText(SignUpActivity.this, "Creating a new profile failed.", Toast.LENGTH_SHORT).show();

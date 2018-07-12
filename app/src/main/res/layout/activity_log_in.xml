@@ -9,8 +9,6 @@
     tools:context=".LogInActivity"
     android:orientation="vertical">
 
-
-
     <EditText
         android:id="@+id/editTxtEmail"
         android:layout_width="279dp"

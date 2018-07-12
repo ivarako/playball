@@ -34,7 +34,11 @@ public class LogInActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null)
         {
-            //pozovi sledeci activity
+            Intent i = new Intent(LogInActivity.this, HomeActivity.class);
+            Bundle idBundle = new Bundle();
+            idBundle.putString("userid", currentUser.getUid());
+            i.putExtras(idBundle);
+            startActivity(i);
         }
     }
 
@@ -54,8 +58,11 @@ public class LogInActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                //pozovi sledeci activity
-                                Toast.makeText(LogInActivity.this, "Authentication succed.",Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(LogInActivity.this, HomeActivity.class);
+                                Bundle idBundle = new Bundle();
+                                idBundle.putString("userid", user.getUid());
+                                i.putExtras(idBundle);
+                                startActivity(i);
                             }
                             else {
                                 Toast.makeText(LogInActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
