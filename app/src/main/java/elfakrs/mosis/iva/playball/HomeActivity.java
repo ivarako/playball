@@ -89,6 +89,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.itemViewMap:{
 
                 Intent i = new Intent(HomeActivity.this, MapsActivity.class);
+                i.putExtra("state", MapsActivity.SHOW_MAP);
                 startActivity(i);
                 break;
             }

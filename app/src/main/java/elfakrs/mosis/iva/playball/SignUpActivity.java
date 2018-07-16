@@ -113,6 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                             user.setOthers(true);
                             user.setNumOfRatings(0);
                             user.setScore(0);
+                            user.setHasImg(imageSet);
 
                             myRef.child("users").child(user.getId()).setValue(user);
 

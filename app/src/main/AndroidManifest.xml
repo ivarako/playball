@@ -57,7 +57,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="elfakrs.mosis.iva.playball.HomeActivity" />
         </activity>
-        <activity android:name=".ViewGameActivity"></activity>
+        <activity android:name=".ViewGameActivity" />
     </application>
 
 </manifest>

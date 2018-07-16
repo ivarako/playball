@@ -42,7 +42,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/editbox_dropdown_light_frame"
-            android:hint="Tittle"
+            android:hint="Title"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="25dp"
             android:gravity="center"/>

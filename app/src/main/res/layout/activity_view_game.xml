@@ -1,9 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewGameActivity">
+    tools:context=".ViewGameActivity"
+    android:orientation="vertical"
+    android:background="@color/grey">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/viewGameImg"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:visibility="visible"
+        android:background="@drawable/balls1"
+        android:padding="0dp"/>
+
+    <TextView
+        android:id="@+id/viewGameTxtTittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="Title"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:text="Created by:"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/viewGameTxtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:text="Name"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <ImageView
+            android:id="@+id/viewGameImgCreator"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="7dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="30dp"
+            android:text="Sport:"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/viewGameTxtSport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Sport"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="30dp"
+            android:text="Time:"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/viewGameTxtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:text="Time"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="30dp"
+            android:text="Location:"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/viewGameTxtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Sport"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="250dp"
+        android:onClick="ViewGameMap"
+        android:text=" Show on a map "
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@drawable/back"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewGameTxtGoing"
+        android:text="9 people going"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="5dp"
+        android:textStyle="bold" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Going"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            android:onClick="ViewGameGoing"
+            android:background="@drawable/back"/>
+
+
+</LinearLayout>

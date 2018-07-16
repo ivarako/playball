@@ -68,6 +68,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
     private int mday;
     private int mhour;
     private int mmin;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,16 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
+
+        DatabaseReference refUser = myRef.child("users").child(userID);
+        refUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    user= dataSnapshot.getValue(User.class); }}
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
     }
 
     public void GamePicture(View v)
@@ -134,6 +145,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
     public void GameLocation(View v)
     {
         Intent i = new Intent(NewGameActivity.this, MapsActivity.class);
+        i.putExtra("state", MapsActivity.SELECET_COORDINATES);
         startActivityForResult(i, 2);
     }
 
@@ -158,45 +170,33 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
         game.setTittle(tittle);
         game.setLatitude(latitude);
         game.setLongitude(longitude);
+        game.setSport(sport);
         game.setDateTime(new Date(myear, mmonth, mday, mhour, mmin));
+        game.setHasImg(imageSet);
         game.setId(myRef.push().getKey());
 
         myRef.child("games").child(game.getId()).setValue(game);
 
-        final DatabaseReference ref2 = myRef.child("users").child(userID);
-        ref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                        User user= dataSnapshot.getValue(User.class);
-                        if(!user.getGamesID().contains(game.getId()))
-                        {
-                            user.addCreatedGame(game.getId());
-                            ref2.setValue(user);
-                        }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+       user.addCreatedGame(game.getId());
+       myRef.child("users").child(userID).child("gamesID").setValue(user.getGamesID());
 
         if(imageSet) {
             mProgressDialog.setMessage("Creating a new game...");
             mProgressDialog.show();
             uploadPhoto(game);
         }
-        else
+        else {
             Toast.makeText(NewGameActivity.this, "New game created!", Toast.LENGTH_SHORT).show();
 
-        Intent i = new Intent(NewGameActivity.this, ViewGameActivity.class);
-        Bundle idBundle = new Bundle();
-        idBundle.putString("userid", userID);
-        idBundle.putString("gameid", game.getId());
-        i.putExtras(idBundle);
-        startActivity(i);
+            Intent i = new Intent(NewGameActivity.this, ViewGameActivity.class);
+            Bundle idBundle = new Bundle();
+            idBundle.putString("userid", userID);
+            idBundle.putString("gameid", game.getId());
+            i.putExtras(idBundle);
+            startActivity(i);
+
+            finish();
+        }
     }
 
     public void GameDiscard(View v)
@@ -281,15 +281,11 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                         txtLocation.setText(address);
                     }
                 }
-                catch(Exception e)
-                {
-
-                }
+                catch(Exception e) { }
         }
     }
 
-    private void uploadPhoto(Game game)
-    {
+    private void uploadPhoto(final Game game) {
         StorageReference storageRef = mStorageRef.child("images/games/" + game.getId());
 
         storageRef.putFile(image)
@@ -298,6 +294,15 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         mProgressDialog.dismiss();
                         Toast.makeText(NewGameActivity.this, "New game created!", Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(NewGameActivity.this, ViewGameActivity.class);
+                        Bundle idBundle = new Bundle();
+                        idBundle.putString("userid", userID);
+                        idBundle.putString("gameid", game.getId());
+                        i.putExtras(idBundle);
+                        startActivity(i);
+
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -361,7 +366,6 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                 }
 
                 else {
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("New sport");
                     final EditText input = new EditText(NewGameActivity.this);
@@ -387,7 +391,6 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-
                 break;
             }
         }
@@ -397,4 +400,13 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
 }

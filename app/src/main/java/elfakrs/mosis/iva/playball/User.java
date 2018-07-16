@@ -24,6 +24,7 @@ public class User {
     private boolean basketball;
     private boolean volleyball;
     private boolean others;
+    private boolean hasImg;
 
     private ArrayList<String> friendsID;
     private ArrayList<String> commentsID;
@@ -258,5 +259,12 @@ public class User {
         this.others = others;
     }
 
+    public boolean isHasImg() {
+        return hasImg;
+    }
+
+    public void setHasImg(boolean hasImg) {
+        this.hasImg = hasImg;
+    }
 
 }

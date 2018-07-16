@@ -13,6 +13,7 @@ public class Game {
     private ArrayList<String> goingUsersID;
     private String creatorID;
     private String tittle;
+    private boolean hasImg;
 
     public Game()
     {
@@ -87,6 +88,14 @@ public class Game {
     public void addGoingUser(String id)
     {
         goingUsersID.add(id);
+    }
+
+    public boolean isHasImg() {
+        return hasImg;
+    }
+
+    public void setHasImg(boolean hasImg) {
+        this.hasImg = hasImg;
     }
 
 }
