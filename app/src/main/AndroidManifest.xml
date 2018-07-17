@@ -58,6 +58,7 @@
                 android:value="elfakrs.mosis.iva.playball.HomeActivity" />
         </activity>
         <activity android:name=".ViewGameActivity" />
+        <activity android:name=".TheBestListActivity"></activity>
     </application>
 
 </manifest>

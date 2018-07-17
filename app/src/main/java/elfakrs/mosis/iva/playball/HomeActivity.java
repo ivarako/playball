@@ -96,7 +96,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.itemTheBest:{
 
-
+                Intent i = new Intent(HomeActivity.this, TheBestListActivity.class);
+                startActivity(i);
                 break;
             }
 
