@@ -31,8 +31,10 @@ public class ViewGameActivity extends AppCompatActivity {
 
     private String userID;
     private String gameID;
+    private String currentUserID;
     private Game game;
     private User user;
+    private User currentUser;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     private StorageReference mStorageRef;
@@ -44,7 +46,8 @@ public class ViewGameActivity extends AppCompatActivity {
 
         Intent listIntent = getIntent();
         Bundle idBundle = listIntent.getExtras();
-        userID = idBundle.getString("userid");
+        userID = idBundle.getString("usercreatorID");
+        currentUserID = idBundle.getString("userid");
         gameID = idBundle.getString("gameid");
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -53,6 +56,19 @@ public class ViewGameActivity extends AppCompatActivity {
 
         setUser();
         setGame();
+
+        final DatabaseReference refUser = myRef.child("users").child(currentUserID);
+        refUser.addListenerForSingleValueEvent( new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    currentUser = dataSnapshot.getValue(User.class);
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
     }
 
     private void setUser() {
@@ -61,10 +77,10 @@ public class ViewGameActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item: dataSnapshot.getChildren()) {
-                        user = dataSnapshot.getValue(User.class);
-                        setUserData();
-                    }
+                    user = dataSnapshot.getValue(User.class);
+                    setUserData();
                 }
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
@@ -76,12 +92,12 @@ public class ViewGameActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item: dataSnapshot.getChildren()) {
-                        game = dataSnapshot.getValue(Game.class);
-                        try {
-                            setGameData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    game = dataSnapshot.getValue(Game.class);
+                    try {
+                        setGameData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override
@@ -168,17 +184,18 @@ public class ViewGameActivity extends AppCompatActivity {
 
     public void ViewGameGoing(View v)
     {
-        if(user.getGoingGamesID().contains(gameID)) {
+        if(currentUser.getGoingGamesID().contains(gameID)) {
             Toast.makeText(ViewGameActivity.this, "You already marked your arrival to this game", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        user.addGoingGame(gameID);
-        myRef.child("users").child(userID).setValue(user);
+        currentUser.addGoingGame(gameID);
+        myRef.child("users").child(currentUserID).setValue(currentUser);
 
-        game.addGoingUser(userID);
+        game.addGoingUser(currentUserID);
         myRef.child("games").child(gameID).setValue(game);
 
         Toast.makeText(ViewGameActivity.this, "You are going!", Toast.LENGTH_SHORT).show();
+
     }
 }

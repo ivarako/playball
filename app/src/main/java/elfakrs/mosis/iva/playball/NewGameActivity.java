@@ -192,6 +192,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
             Bundle idBundle = new Bundle();
             idBundle.putString("userid", userID);
             idBundle.putString("gameid", game.getId());
+            idBundle.putString("usercreatorID", userID);
             i.putExtras(idBundle);
             startActivity(i);
 
