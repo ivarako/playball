@@ -49,14 +49,16 @@
             android:layout_marginLeft="10dp"
             android:text="Name"
             android:textSize="20sp"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:onClick="OpenCreator"/>
 
         <ImageView
             android:id="@+id/viewGameImgCreator"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="7dp"/>
+            android:layout_marginTop="7dp"
+            android:onClick="OpenCreator"/>
 
     </LinearLayout>
 

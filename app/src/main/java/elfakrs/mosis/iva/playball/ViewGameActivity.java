@@ -205,4 +205,15 @@ public class ViewGameActivity extends AppCompatActivity {
 
         Toast.makeText(ViewGameActivity.this, "You are going!", Toast.LENGTH_SHORT).show();
     }
+
+    public void OpenCreator(View v)
+    {
+         Intent i = new Intent(ViewGameActivity.this, ProfileActivity.class);
+         Bundle idBundle = new Bundle();
+         idBundle.putString("userid", userID);
+         idBundle.putString("currentUserid", currentUserID);
+         i.putExtras(idBundle);
+         startActivity(i);
+
+    }
 }
