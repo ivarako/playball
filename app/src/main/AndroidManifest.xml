@@ -58,7 +58,17 @@
                 android:value="elfakrs.mosis.iva.playball.HomeActivity" />
         </activity>
         <activity android:name=".ViewGameActivity" />
-        <activity android:name=".TheBestListActivity"></activity>
+        <activity android:name=".TheBestListActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="elfakrs.mosis.iva.playball.HomeActivity" />
+        </activity>
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

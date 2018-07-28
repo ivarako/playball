@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -71,7 +73,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    user= dataSnapshot.getValue(User.class); }}
+                    user= dataSnapshot.getValue(User.class); }
+                    setGames();
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
@@ -84,35 +88,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        setGames();
     }
 
-    private void setGames()
-    {
+    private void setGames() {
         DatabaseReference refUsers = myRef.child("games");
         refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                    boolean tmp = false;
-                   switch (ds.getValue(Game.class).getSport()){
-                       case "football": {
-                           tmp = user.isFootball();
-                           break;
+                   Date date = ds.getValue(Game.class).getDateTime();
+                    Log.i("year", String.valueOf(date.getYear()));
+                   Date currentDate = new Date();
+                   //year 3918???? u bazi 2018.
+                   Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+
+                   if(dateTmp.after(currentDate))
+                   {
+                      switch (ds.getValue(Game.class).getSport()) {
+                           case "football": {
+                               tmp = user.isFootball();
+                               break;
+                           }
+                           case "basketball": {
+                               tmp = user.isBasketball();
+                               break;
+                           }
+                           case "volleyball": {
+                               tmp = user.isVolleyball();
+                               break;
+                           }
+                           default: {
+                               tmp = user.isOthers();
+                               break;
+                           }
                        }
-                       case "basketball": {
-                           tmp = user.isBasketball();
-                           break;
-                       }
-                       case "volleyball": {
-                           tmp = user.isVolleyball();
-                           break;
-                       }
-                       default: {
-                           tmp = user.isOthers();
-                           break;
-                       }}
+                   }
 
                        if(tmp /* && u radiusu*/) {
                            Game game = new Game();
@@ -143,9 +154,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(30, 0, 0, 50);
         txt.setLayoutParams(params);
-        txt.setText(game.getTittle());
         txt.setTag(game.getId() + " " + game.getCreatorID());
         txt.setOnClickListener(this);
+
+        if(user.getGoingGamesID().contains(game.getId()))
+            txt.setText(game.getTittle() + " - GOING");
+        else
+            txt.setText(game.getTittle());
 
         final ImageView img = new ImageView(HomeActivity.this);
         img.setTag(game.getId() + " " + game.getCreatorID());
@@ -202,7 +217,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
 
             case R.id.itemMyProfile: {
-
+                Intent i = new Intent(HomeActivity.this, ProfileActivity.class);
+                Bundle idBundle = new Bundle();
+                idBundle.putString("userid", userID);
+                idBundle.putString("currentUserid", userID);
+                i.putExtras(idBundle);
+                startActivity(i);
                 break;
             }
 
@@ -236,7 +256,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Bundle idBundle = new Bundle();
                 idBundle.putString("userid", userID);
                 i.putExtras(idBundle);
-                startActivity(i);
+                startActivityForResult(i, 1);
                 break;
             }
 
@@ -279,4 +299,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         i.putExtras(idBundle);
         startActivity(i);
     }
+
+    @Override
+      public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        if(requestCode == 1 && resultCode == android.app.Activity.RESULT_OK) {
+            LinearLayout ly = (LinearLayout) findViewById(R.id.content);
+            ly.removeAllViews();
+
+            DatabaseReference refUser = myRef.child("users").child(userID);
+            refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    user= dataSnapshot.getValue(User.class); }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { } });
+
+            setGames();
+            }
+        }
 }

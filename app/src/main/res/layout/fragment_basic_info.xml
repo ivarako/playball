@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BasicInfoFragment"
+    android:orientation="vertical"
+    android:background="@drawable/balls">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/infoImg"/>
+
+        <TextView
+            android:id="@+id/infoNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:drawable/editbox_dropdown_light_frame" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/infoTxt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:singleLine="false"/>
+
+    <Button
+        android:id="@+id/btnInfoEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="250dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:text="Edit profile"
+        android:visibility="invisible"/>
+
+
+</LinearLayout>

@@ -56,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     {
         setUpdateData(false);
         Toast.makeText(SettingsActivity.this, "Changes saved!", Toast.LENGTH_SHORT).show();
+        setResult(android.app.Activity.RESULT_OK);
         finish();
     }
 

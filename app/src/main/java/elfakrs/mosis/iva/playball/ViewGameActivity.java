@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -128,12 +129,19 @@ public class ViewGameActivity extends AppCompatActivity {
             });
         }
 
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-        String reportDate = df.format(game.getDateTime());
+        /*DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String reportDate = df.format(game.getDateTime());*/
+        Date date = game.getDateTime();
+
+        String min = String.valueOf(date.getMinutes());
+        if(min.length() == 1) min = "0" + min;
+
+        String hour = String.valueOf(date.getHours());
+        if(hour.length() == 1) hour = "0" + hour;
 
         txtTittle.setText(game.getTittle());
         txtSport.setText(game.getSport());
-        txtTime.setText(reportDate);
+        txtTime.setText(String.valueOf(date.getDate()) + "/" + String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getYear()) + " " + hour + ":" + min);
         txtGoing.setText(String.valueOf(game.getGoingUsersID().size()) + " people going");
 
         Geocoder geocoder;
@@ -196,6 +204,5 @@ public class ViewGameActivity extends AppCompatActivity {
         myRef.child("games").child(gameID).setValue(game);
 
         Toast.makeText(ViewGameActivity.this, "You are going!", Toast.LENGTH_SHORT).show();
-
     }
 }
