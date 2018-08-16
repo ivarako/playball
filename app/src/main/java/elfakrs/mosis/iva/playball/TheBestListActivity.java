@@ -50,8 +50,14 @@ public class TheBestListActivity extends AppCompatActivity {
                    Collections.sort(users, new Comparator<User>() {
                        @Override
                        public int compare(User u1, User u2) {
-                           if(u1.getScore() != u2.getScore())
-                            return Float.compare(u2.getScore(), u1.getScore());
+
+                           if(u1.getNumOfRatings() == 0)
+                               return 1;
+                           if(u2.getNumOfRatings() == 0)
+                               return -1;
+
+                           if(u1.getScore()/u1.getNumOfRatings() != u2.getScore()/u2.getNumOfRatings())
+                            return Float.compare(u2.getScore()/u2.getNumOfRatings(), u1.getScore()/u1.getNumOfRatings());
                            else
                             return u2.getNumOfRatings() - u1.getNumOfRatings(); }});
 
@@ -95,7 +101,10 @@ public class TheBestListActivity extends AppCompatActivity {
             tr.addView(txtName);
 
             TextView txtScore = new TextView(TheBestListActivity.this);
-            txtScore.setText(String.valueOf(users.get(i).getScore()));
+            if(users.get(i).getNumOfRatings() == 0)
+                txtScore.setText("0.00");
+            else
+                 txtScore.setText(String.format("%.2f", users.get(i).getScore() / users.get(i).getNumOfRatings()));
             txtScore.setTextSize(17);
             txtScore.setTextColor(getResources().getColor(R.color.colorPrimary));
             txtScore.setGravity(Gravity.CENTER);

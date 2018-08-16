@@ -13,6 +13,7 @@ public class Comment {
     private String text;
     private String authorID;
     private String userID;
+    private String authorName;
     private Date date;
     private String id;
 
@@ -59,4 +60,8 @@ public class Comment {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getAuthorName(){return authorName;}
+
+    public void setAuthorName(String authorName1){this.authorName = authorName1;}
 }

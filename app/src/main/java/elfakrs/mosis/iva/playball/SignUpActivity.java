@@ -127,13 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 uploadPhoto(user);
                             }
                             else
-                                Toast.makeText(SignUpActivity.this, "New profile created!", Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
-                            Bundle idBundle = new Bundle();
-                            idBundle.putString("userid", fbUser.getUid());
-                            i.putExtras(idBundle);
-                            startActivity(i);
+                                startNextActivity(user.getId());
 
                         } else {
                             Toast.makeText(SignUpActivity.this, "Creating a new profile failed.", Toast.LENGTH_SHORT).show();
@@ -244,7 +238,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadPhoto(User user)
+    private void uploadPhoto(final User user)
     {
         StorageReference storageRef = mStorageRef.child("images/users/" + user.getId());
 
@@ -253,7 +247,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         mProgressDialog.dismiss();
-                        Toast.makeText(SignUpActivity.this, "New profile created!", Toast.LENGTH_SHORT).show();
+                        startNextActivity(user.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -263,6 +257,15 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "Uploading a photo failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void startNextActivity(String userID){
+        Toast.makeText(SignUpActivity.this, "New profile created!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
+        Bundle idBundle = new Bundle();
+        idBundle.putString("userid", userID);
+        i.putExtras(idBundle);
+        startActivity(i);
     }
 }
 

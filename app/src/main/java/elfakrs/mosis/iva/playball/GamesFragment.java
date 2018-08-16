@@ -112,7 +112,7 @@ public class GamesFragment extends Fragment implements  View.OnClickListener{
         txt.setOnClickListener(this);
 
         if(user.getGamesID().contains(game.getId()))
-            txt.setText(game.getTittle() + " - created by" + user.getName());
+            txt.setText(game.getTittle() + " - created by " + user.getName());
         else
             txt.setText(game.getTittle());
 

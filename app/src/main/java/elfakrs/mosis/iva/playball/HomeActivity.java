@@ -179,9 +179,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         ly.addView(img);
         ly.addView(txt);
-
     }
-
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -221,7 +219,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.itemNewGame:{
-
                 Intent i = new Intent(HomeActivity.this, NewGameActivity.class);
                 Bundle idBundle = new Bundle();
                 idBundle.putString("userid", userID);
@@ -231,15 +228,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.itemViewMap:{
-
                 Intent i = new Intent(HomeActivity.this, MapsActivity.class);
                 i.putExtra("state", MapsActivity.SHOW_MAP);
+                i.putExtra("userid", userID);
                 startActivity(i);
                 break;
             }
 
             case R.id.itemTheBest:{
-
                 Intent i = new Intent(HomeActivity.this, TheBestListActivity.class);
                 startActivity(i);
                 break;
@@ -255,7 +251,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.itemLogOut:{
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Log out");
                 builder.setMessage("Are you sure you want to log out?");

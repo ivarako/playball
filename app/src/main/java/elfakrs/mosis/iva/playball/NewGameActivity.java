@@ -145,7 +145,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
     public void GameLocation(View v)
     {
         Intent i = new Intent(NewGameActivity.this, MapsActivity.class);
-        i.putExtra("state", MapsActivity.SELECET_COORDINATES);
+        i.putExtra("state", MapsActivity.SELECT_COORDINATES);
         startActivityForResult(i, 2);
     }
 
@@ -300,6 +300,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                         Bundle idBundle = new Bundle();
                         idBundle.putString("userid", userID);
                         idBundle.putString("gameid", game.getId());
+                        idBundle.putString("usercreatorID", userID);
                         i.putExtras(idBundle);
                         startActivity(i);
 

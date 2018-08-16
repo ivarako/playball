@@ -4,12 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CommentsFragment"
+    android:background="@drawable/balls"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/commentsfragmenttxt"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Average score: "
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtScoreComments"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Leave a rate "
+        android:background="@android:drawable/alert_light_frame"
+        android:layout_marginLeft="230dp"
+        android:id="@+id/btnScoreComm"
+        android:visibility="invisible"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/lyComments"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+
 
 </LinearLayout>
