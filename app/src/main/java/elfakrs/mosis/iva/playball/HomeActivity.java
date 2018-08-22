@@ -1,12 +1,18 @@
 package elfakrs.mosis.iva.playball;
 
+import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static elfakrs.mosis.iva.playball.MapsActivity.PERMISSION_ACCESS_FINE_LOCATION;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -62,18 +70,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        DatabaseReference refUser = myRef.child("users").child(userID);
-        refUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    user= dataSnapshot.getValue(User.class); }
-                    setGames();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
-
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -82,6 +78,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        DatabaseReference refUser = myRef.child("users").child(userID);
+        refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item: dataSnapshot.getChildren()) {
+                    user = dataSnapshot.getValue(User.class);
+                }
+                setGames();
+
+                if(user.isNotifications() && !isServiceRunning(MyService.class)){
+
+                    if (ContextCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            &&ContextCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ACCESS_FINE_LOCATION);
+                    }
+                    else {
+                        Intent i = new Intent(HomeActivity.this, MyService.class);
+                        startService(i);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
     }
 
     private void setGames() {
@@ -143,7 +165,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout ly = (LinearLayout) findViewById(R.id.content);
 
         TextView txt = new TextView(HomeActivity.this);
-        txt.setTextColor(R.color.colorPrimaryDark);
+        txt.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         txt.setTextSize(15);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(30, 0, 0, 50);
@@ -311,4 +333,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             setGames();
             }
         }
+
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Intent i = new Intent(HomeActivity.this, MyService.class);
+                    startService(i);
+                }
+            }
+        }
+    }
 }

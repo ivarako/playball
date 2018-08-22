@@ -30,6 +30,7 @@ public class User {
     private ArrayList<String> commentsID;
     private ArrayList<String> gamesID;
     private ArrayList<String> goingGamesID;
+    private ArrayList<String> notifiedGames;
 
     public User(){
 
@@ -37,6 +38,7 @@ public class User {
         commentsID = new ArrayList<String >();
         gamesID = new ArrayList<String>();
         goingGamesID = new ArrayList<String>();
+        notifiedGames = new ArrayList<>();
     }
 
     public String getId() {
@@ -265,6 +267,18 @@ public class User {
 
     public void setHasImg(boolean hasImg) {
         this.hasImg = hasImg;
+    }
+
+    public ArrayList<String> getNotifiedGames() {
+        return notifiedGames;
+    }
+
+    public void setNotifiedGames(ArrayList<String> notifiedGames) {
+        this.notifiedGames = notifiedGames;
+    }
+
+    public void addNotifiedGame(String gameID){
+        notifiedGames.add(gameID);
     }
 
 }

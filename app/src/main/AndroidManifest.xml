@@ -71,7 +71,12 @@
                 android:value="elfakrs.mosis.iva.playball.HomeActivity" />
         </activity>
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".FindFriendsActivity"></activity>
+        <activity android:name=".FindFriendsActivity" />
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

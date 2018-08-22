@@ -29,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -176,7 +178,6 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
         game.setId(myRef.push().getKey());
 
         myRef.child("games").child(game.getId()).setValue(game);
-
        user.addCreatedGame(game.getId());
        myRef.child("users").child(userID).child("gamesID").setValue(user.getGamesID());
 
@@ -319,7 +320,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, final int year, final int month, final int dayOfMonth) {
 
-        myear = year; mmonth = month; mday = dayOfMonth;
+        myear = year; mmonth = month + 1; mday = dayOfMonth;
 
         final EditText txtDate = (EditText) findViewById(R.id.gameTxtDateTime);
 
@@ -334,7 +335,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
                 mhour = selectedHour; mmin = selectedMinute;
 
                 txtDate.setVisibility(View.VISIBLE);
-                txtDate.setText(selectedHour + ":" + selectedMinute + " " + dayOfMonth + "/" + month + "/" + year);
+                txtDate.setText(selectedHour + ":" + selectedMinute + " " + dayOfMonth + "/" + mmonth + "/" + year);
             }
         }, hour, minute, true);
         mTimePicker.setTitle("Select Time");

@@ -1,6 +1,8 @@
 package elfakrs.mosis.iva.playball;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -125,6 +127,17 @@ public class SettingsActivity extends AppCompatActivity {
         if(user.isNotifications() != switchNotifications.isChecked())
         {
             user.setNotifications(switchNotifications.isChecked());
+
+            if(user.isNotifications() && !isServiceRunning(MyService.class)){
+                Intent i = new Intent(SettingsActivity.this, MyService.class);
+                startService(i);
+            }
+
+            if((!user.isNotifications()) && isServiceRunning(MyService.class)){
+                Intent i = new Intent(SettingsActivity.this, MyService.class);
+                stopService(i);
+            }
+
             changes = true;
         }
 
@@ -167,5 +180,15 @@ public class SettingsActivity extends AppCompatActivity {
         return changes;
     }
 
+
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
