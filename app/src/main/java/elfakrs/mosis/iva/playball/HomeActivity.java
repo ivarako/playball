@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -114,7 +115,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                    boolean tmp = false;
                    Date date = ds.getValue(Game.class).getDateTime();
-                    Log.i("year", String.valueOf(date.getYear()));
+                   Double lat = Double.parseDouble(ds.getValue(Game.class).getLatitude());
+                   Double lon = Double.parseDouble(ds.getValue(Game.class).getLongitude());
                    Date currentDate = new Date();
                    //year 3918???? u bazi 2018.
                    Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
@@ -140,8 +142,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                            }
                        }
                    }
+                   if(user.getLatitude()!= null){
+                       float[] dist = new float[1];
+                       Location.distanceBetween(Double.parseDouble(user.getLatitude()), Double.parseDouble(user.getLongitude()),lat, lon, dist);
 
-                       if(tmp /* && u radiusu*/) {
+                       if(dist[0]> user.getRadius()*1000)
+                           tmp = false;
+                   }
+                       if(tmp) {
                            Game game = new Game();
                            game.setId(ds.getValue(Game.class).getId());
                            game.setTittle(ds.getValue(Game.class).getTittle());
@@ -160,8 +168,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void setGamesData(Game game)
-    {
+    private void setGamesData(Game game) {
         LinearLayout ly = (LinearLayout) findViewById(R.id.content);
 
         TextView txt = new TextView(HomeActivity.this);

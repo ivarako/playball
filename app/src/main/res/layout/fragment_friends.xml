@@ -11,13 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/findFriendsBtn"
-        android:onClick="FindFrirends"
         android:background="@android:drawable/editbox_dropdown_light_frame"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="230dp"
         android:padding="10dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:text="Find friends"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/friendsFragmentLLY"
+            android:layout_gravity="center">
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

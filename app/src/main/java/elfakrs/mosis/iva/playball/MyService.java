@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 import static elfakrs.mosis.iva.playball.MapsActivity.PERMISSION_ACCESS_FINE_LOCATION;
 
 public class MyService extends Service {
@@ -107,7 +109,7 @@ public class MyService extends Service {
     }
 
     private void checkIfNearEvent(final Location location){
-        if(user != null){
+        if(user != null && user.isNotifications()){
             DatabaseReference refGames = myRef.child("games");
             refGames.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -118,10 +120,39 @@ public class MyService extends Service {
                        String gameLon = item.getValue(Game.class).getLongitude();
                        String creatorID = item.getValue(Game.class).getCreatorID();
 
+                       String sport = item.getValue(Game.class).getSport();
+                       Date date = item.getValue(Game.class).getDateTime();
+                        Date currentDate = new Date();
+                        //year 3918???? u bazi 2018.
+                        Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+
+                        boolean tmp = false;
+                        if(dateTmp.after(currentDate))
+                        {
+                            switch (sport) {
+                                case "football": {
+                                    tmp = user.isFootball();
+                                    break;
+                                }
+                                case "basketball": {
+                                    tmp = user.isBasketball();
+                                    break;
+                                }
+                                case "volleyball": {
+                                    tmp = user.isVolleyball();
+                                    break;
+                                }
+                                default: {
+                                    tmp = user.isOthers();
+                                    break;
+                                }
+                            }
+                        }
+
                         float[] dist = new float[1];
                         Location.distanceBetween(location.getLatitude(), location.getLongitude(), Double.parseDouble(gameLat), Double.parseDouble(gameLon), dist);
 
-                        if(dist[0] <= 1000 && !creatorID.equals(user.getId()) && !user.getNotifiedGames().contains(gameID)){
+                        if(dist[0] <= 1000 && !creatorID.equals(user.getId()) && !user.getNotifiedGames().contains(gameID) && tmp){
 
                             user.addNotifiedGame(gameID);
                             myRef.child("users").child(user.getId()).child("notifiedGames").setValue(user.getNotifiedGames());

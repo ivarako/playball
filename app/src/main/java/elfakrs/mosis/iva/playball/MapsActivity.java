@@ -6,33 +6,56 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Interpolator;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
+    private StorageReference mStorageRef;
     private String userID;
     private User user;
 
@@ -131,8 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setOnMapClickListener()
-    {
+    private void setOnMapClickListener() {
         if(mMap != null && state == SELECT_COORDINATES) {
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
@@ -163,6 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setMapData(){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         setOnMarkerClickListener();
 
         DatabaseReference refUser = myRef.child("users").child(userID);
@@ -180,6 +204,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    private void setOnMarkerClickListener(){
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                //zindex 1 - game, 0 - friend
+                if(marker.getZIndex() == 1){
+                    Game game = (Game) marker.getTag();
+                    Intent i = new Intent(MapsActivity.this, ViewGameActivity.class);
+                    Bundle idBundle = new Bundle();
+                    idBundle.putString("userid", userID);
+                    idBundle.putString("gameid", game.getId());
+                    idBundle.putString("usercreatorID", game.getCreatorID());
+                    i.putExtras(idBundle);
+                    startActivity(i);
+                }
+                else{
+                    Intent i = new Intent(MapsActivity.this, ProfileActivity.class);
+                    Bundle idBundle = new Bundle();
+                    idBundle.putString("userid", marker.getTag().toString());
+                    idBundle.putString("currentUserid", userID);
+                    i.putExtras(idBundle);
+                    startActivity(i);
+                }
+                return false;
+            }
+        });
+    }
+
     private void setGames(){
         DatabaseReference refUsers = myRef.child("games");
         refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -188,13 +241,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     boolean tmp = false;
                     Date date = ds.getValue(Game.class).getDateTime();
-                    Log.i("year", String.valueOf(date.getYear()));
                     Date currentDate = new Date();
                     //year 3918???? u bazi 2018.
                     Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 
-                    if(dateTmp.after(currentDate))
-                    {
+                    if(dateTmp.after(currentDate)) {
                         switch (ds.getValue(Game.class).getSport()) {
                             case "football": {
                                 tmp = user.isFootball();
@@ -240,30 +291,134 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setFriends(){
 
+        final ArrayList<String> friendsID = new ArrayList<>();
+        DatabaseReference refFriends =  myRef.child("users");
+        final ArrayList<Marker> friendsMarkers = new ArrayList<>();
+
+        refFriends.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot item: dataSnapshot.getChildren()){
+                    if(user.getFriendsID().contains(item.getKey())){
+                        if(friendsID.contains(item.getKey())){
+
+                            //korisnik ciji je marker vec dodat je promenio lokaciju
+                            if(item.getValue(User.class).isLocation()){
+                                for(int i = 0; i<friendsMarkers.size(); i++){
+                                    if(friendsMarkers.get(i).getTag().equals(item.getKey()))
+                                        animateMarker(friendsMarkers.get(i), new LatLng(Double.parseDouble(item.getValue(User.class).getLatitude()), Double.parseDouble(item.getValue(User.class).getLongitude())), false);
+                                }
+                            }
+                            //korisnik ciji je marker vec dodat ne deli vise lokaciju
+                            else{
+                                friendsID.remove(item.getKey());
+                                for(int i = 0; i<friendsMarkers.size(); i++)
+                                    if(friendsMarkers.get(i).getTag().equals(item.getKey())) {
+                                        Marker m = friendsMarkers.get(i);
+                                        friendsMarkers.remove(m);
+                                        m.remove();
+                                    }
+                            }
+                        }
+
+                        //marker korisnika nije jos uvek dodat
+                        else{
+                            if(item.getValue(User.class).isLocation()) {
+                                friendsID.add(item.getKey());
+                                User friend = item.getValue(User.class);
+                                addFriendMarker(friend, friendsMarkers);
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
-    private void setOnMarkerClickListener(){
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+    private void addFriendMarker(final User friend, final ArrayList<Marker> markers){
+       if(friend.isHasImg()){
+            StorageReference storageRef = mStorageRef.child("images/users/" + friend.getId());
+           try {
+               final File localFile = File.createTempFile("Images", "bmp");
+               storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
+                   @Override
+                   public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                       Bitmap bmp = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                       Bitmap smallMarker = Bitmap.createScaledBitmap(bmp,110,115,false);
+                       MarkerOptions markerOptions = new MarkerOptions();
+                       markerOptions.position(new LatLng(Double.parseDouble(friend.getLatitude()), Double.parseDouble(friend.getLongitude())));
+                       markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                       markerOptions.title(friend.getName());
+                       Marker marker = mMap.addMarker(markerOptions);
+                       marker.setTag(friend.getId());
+                       marker.setZIndex(0);
+                       markers.add(marker);
+                   }
+               }).addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {
+                       Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                   }
+               });
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+        }
+        else{
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(Double.parseDouble(friend.getLatitude()), Double.parseDouble(friend.getLongitude())));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_person_pin_circle_black_24dp));
+            markerOptions.title(friend.getName());
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.setTag(friend.getId());
+            marker.setZIndex(0);
+            markers.add(marker);
+        }
+
+    }
+
+
+    private void animateMarker(final Marker marker, final LatLng toPosition, final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = mMap.getProjection();
+        Point startPoint = proj.toScreenLocation(marker.getPosition());
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 500;
+
+        final LinearInterpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * toPosition.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * toPosition.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
 
-                //zindex 1 - game, 0 - friend
-                if(marker.getZIndex() == 1){
-                    Game game = (Game) marker.getTag();
-                    Intent i = new Intent(MapsActivity.this, ViewGameActivity.class);
-                    Bundle idBundle = new Bundle();
-                    idBundle.putString("userid", userID);
-                    idBundle.putString("gameid", game.getId());
-                    idBundle.putString("usercreatorID", game.getCreatorID());
-                    i.putExtras(idBundle);
-                    startActivity(i);
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                } else {
+                    if (hideMarker) {
+                        marker.setVisible(false);
+                    } else {
+                        marker.setVisible(true);
+                    }
                 }
-                else{
-
-
-                }
-                return false;
             }
         });
     }
+
 }

@@ -89,8 +89,6 @@ public class SettingsActivity extends AppCompatActivity {
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-
                     User user = dataSnapshot.getValue(User.class);
                     if(tmp) {
                         setData(user);
@@ -100,7 +98,6 @@ public class SettingsActivity extends AppCompatActivity {
                         if(changes)
                             ref2.setValue(user);
                     }
-                }
             }
 
             @Override
@@ -133,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startService(i);
             }
 
-            if((!user.isNotifications()) && isServiceRunning(MyService.class)){
+            if((!user.isNotifications()) && isServiceRunning(MyService.class) && !switchLocation.isChecked()){
                 Intent i = new Intent(SettingsActivity.this, MyService.class);
                 stopService(i);
             }
@@ -144,6 +141,17 @@ public class SettingsActivity extends AppCompatActivity {
         if(user.isLocation() != switchLocation.isChecked())
         {
             user.setLocation(switchLocation.isChecked());
+
+            if(user.isLocation() && !isServiceRunning(MyService.class)){
+                Intent i = new Intent(SettingsActivity.this, MyService.class);
+                startService(i);
+            }
+
+            if(!user.isLocation() && !user.isNotifications() && isServiceRunning(MyService.class)){
+                Intent i = new Intent(SettingsActivity.this, MyService.class);
+                stopService(i);
+            }
+
             changes = true;
         }
 
