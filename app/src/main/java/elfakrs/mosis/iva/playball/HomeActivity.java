@@ -247,6 +247,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
+            case R.id.itemMyGames:{
+                Intent i = new Intent(HomeActivity.this, MyGamesActivity.class);
+                Bundle idBundle = new Bundle();
+                idBundle.putString("userid", userID);
+                i.putExtras(idBundle);
+                startActivity(i);
+                break;
+            }
+
             case R.id.itemNewGame:{
                 Intent i = new Intent(HomeActivity.this, NewGameActivity.class);
                 Bundle idBundle = new Bundle();
@@ -288,6 +297,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                        mAuth.signOut();
+
+                       if(isServiceRunning(MyService.class)){
+                           Intent i = new Intent(HomeActivity.this, MyService.class);
+                           stopService(i);
+                       }
+
                         Intent i = new Intent(HomeActivity.this, LogInActivity.class);
                         startActivity(i);
                         finish();

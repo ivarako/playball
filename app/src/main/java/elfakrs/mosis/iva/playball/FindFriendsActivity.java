@@ -48,8 +48,6 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
     private DatabaseReference myRef;
     private User user;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +75,7 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Toast.makeText(FindFriendsActivity.this, "You have one new friend!", Toast.LENGTH_LONG).show();
+                setResult(RESULT_OK);
                 finish();
             }
             @Override

@@ -5,6 +5,10 @@
         android:title="My profile"
         android:icon="@drawable/baseline_face_black_24dp"/>
 
+    <item android:id="@+id/itemMyGames"
+        android:title="My games"
+        android:icon="@drawable/baseline_directions_run_black_24dp"/>
+
     <item android:id="@+id/itemNewGame"
         android:title="New game"
         android:icon="@drawable/baseline_add_black_24dp" />
