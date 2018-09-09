@@ -6,45 +6,15 @@
     tools:context=".NewMyGameActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnConnect"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:text=" Connect "/>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnVibrate"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:text=" Vibrate "/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnStopVibrating"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:text=" Stop vibrating "/>
-
-
-    </LinearLayout>
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorPrimary"
+      android:textColorHint="@color/colorPrimary"
+      android:hint="Name of a game"
+      android:id="@+id/txtMyGameName"
+      android:layout_margin="20dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,37 +22,77 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnHeart"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
+            android:id="@+id/btnStartGame"
+            android:text="Start a new game"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:text=" Heart "/>
+            android:layout_marginLeft="30dp"/>
+
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSteps"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
+            android:id="@+id/btnStopGame"
+            android:text="Stop the game"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:text=" Steps "/>
+            android:layout_marginLeft="20dp"/>
+
 
     </LinearLayout>
 
 
-        <TextView android:id="@+id/aTextView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-    <ListView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listOfDevices"></ListView>
+        android:text="00:00"
+        android:textColor="@color/colorPrimary"
+        android:textSize="80sp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/txtDuration"/>
 
 
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginTop="20dp"
+       android:layout_marginLeft="70dp">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Steps: 0"
+           android:id="@+id/txtSteps"
+           android:textColor="@color/colorPrimary"
+           android:textSize="30sp"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="BPM: 0"
+           android:id="@+id/txtBPM"
+           android:layout_marginLeft="20dp"
+           android:textColor="@color/colorPrimary"
+           android:textSize="30sp"/>
+
+   </LinearLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="Stop vibration"
+        android:id="@+id/btnStopVibration"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="220dp"
+        android:visibility="invisible"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package elfakrs.mosis.iva.playball;
+package elfakrs.mosis.iva.playball.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,10 +15,9 @@ public class Game {
     private String tittle;
     private boolean hasImg;
 
-    public Game()
-    {
+    public Game() {
         dateTime = new Date();
-        goingUsersID = new ArrayList<String>();
+        goingUsersID = new ArrayList<>();
     }
 
     public String getId() {

@@ -24,6 +24,9 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
+import elfakrs.mosis.iva.playball.Model.Game;
+import elfakrs.mosis.iva.playball.Model.User;
+
 
 public class GamesFragment extends Fragment implements  View.OnClickListener{
 

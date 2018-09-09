@@ -1,4 +1,4 @@
-package elfakrs.mosis.iva.playball;
+package elfakrs.mosis.iva.playball.MiBand;
 
 public interface Observer {
 

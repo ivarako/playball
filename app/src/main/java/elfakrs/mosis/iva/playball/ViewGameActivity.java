@@ -22,11 +22,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import elfakrs.mosis.iva.playball.Model.Game;
+import elfakrs.mosis.iva.playball.Model.User;
 
 public class ViewGameActivity extends AppCompatActivity {
 

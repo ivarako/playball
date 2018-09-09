@@ -33,6 +33,8 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import elfakrs.mosis.iva.playball.Model.User;
+
 public class EditProfileActivity extends AppCompatActivity {
 
     private String userID;

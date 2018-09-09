@@ -18,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,6 +37,9 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
+
+import elfakrs.mosis.iva.playball.Model.Game;
+import elfakrs.mosis.iva.playball.Model.User;
 
 import static elfakrs.mosis.iva.playball.MapsActivity.PERMISSION_ACCESS_FINE_LOCATION;
 
@@ -117,11 +119,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                    Date date = ds.getValue(Game.class).getDateTime();
                    Double lat = Double.parseDouble(ds.getValue(Game.class).getLatitude());
                    Double lon = Double.parseDouble(ds.getValue(Game.class).getLongitude());
+                   Date tmpDate = new Date(date.getYear() - 1900, date.getMonth() - 1, date.getDate(), date.getHours(), date.getMinutes());
                    Date currentDate = new Date();
-                   //year 3918???? u bazi 2018.
-                   Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 
-                   if(dateTmp.after(currentDate))
+                   if(tmpDate.after(currentDate))
                    {
                       switch (ds.getValue(Game.class).getSport()) {
                            case "football": {
@@ -378,4 +379,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
 }

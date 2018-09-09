@@ -1,6 +1,5 @@
 package elfakrs.mosis.iva.playball;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import elfakrs.mosis.iva.playball.Model.User;
 
 public class BasicInfoFragment extends Fragment {
 
@@ -37,9 +37,7 @@ public class BasicInfoFragment extends Fragment {
     private StorageReference mStorageRef;
     private User user;
 
-
-    public BasicInfoFragment() {
-    }
+    public BasicInfoFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,8 +94,7 @@ public class BasicInfoFragment extends Fragment {
         return view;
     }
 
-    private void setData()
-    {
+    private void setData() {
         if(user.isHasImg()) {
             StorageReference storageRef = mStorageRef.child("images/users/" + userID);
             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -130,8 +127,8 @@ public class BasicInfoFragment extends Fragment {
         txtInfo.setText(info);
     }
 
-     @Override
-      public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         if(requestCode == 1 && resultCode == android.app.Activity.RESULT_OK)

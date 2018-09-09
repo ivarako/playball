@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import elfakrs.mosis.iva.playball.Model.User;
+
 
 public class TheBestListActivity extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class TheBestListActivity extends AppCompatActivity {
         myRef = mFirebaseDatabase.getReference();
 
         DatabaseReference refUsers = myRef.child("users");
-        refUsers.addValueEventListener(new ValueEventListener() {
+        refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
@@ -76,7 +78,7 @@ public class TheBestListActivity extends AppCompatActivity {
 
     private void putData(ArrayList<User> users)
     {
-        TableLayout tl = (TableLayout) findViewById(R.id.tblBest);
+        TableLayout tl = findViewById(R.id.tblBest);
         for(int i = 0; i<users.size(); i++)
         {
             TableRow tr = new TableRow(TheBestListActivity.this);
@@ -84,19 +86,19 @@ public class TheBestListActivity extends AppCompatActivity {
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
             if(i%2 == 0)
-                tr.setBackgroundColor(getResources().getColor(R.color.lightGrey));
+                tr.setBackgroundColor(getResources().getColor(R.color.lightOrange));
 
             TextView txtRank = new TextView(TheBestListActivity.this);
             txtRank.setText(String.valueOf(i + 1) + ".");
             txtRank.setTextSize(17);
             txtRank.setGravity(Gravity.CENTER);
-            txtRank.setTextColor(getResources().getColor(R.color.colorPrimary));
+            txtRank.setTextColor(getResources().getColor(R.color.black));
             tr.addView(txtRank);
 
             TextView txtName = new TextView(TheBestListActivity.this);
             txtName.setText(users.get(i).getName());
             txtName.setTextSize(17);
-            txtName.setTextColor(getResources().getColor(R.color.colorPrimary));
+            txtName.setTextColor(getResources().getColor(R.color.black));
             txtName.setGravity(Gravity.CENTER);
             tr.addView(txtName);
 
@@ -106,13 +108,13 @@ public class TheBestListActivity extends AppCompatActivity {
             else
                  txtScore.setText(String.format("%.2f", users.get(i).getScore() / users.get(i).getNumOfRatings()));
             txtScore.setTextSize(17);
-            txtScore.setTextColor(getResources().getColor(R.color.colorPrimary));
+            txtScore.setTextColor(getResources().getColor(R.color.black));
             txtScore.setGravity(Gravity.CENTER);
             tr.addView(txtScore);
 
             TextView txtNum = new TextView(TheBestListActivity.this);
             txtNum.setText(String.valueOf(users.get(i).getNumOfRatings()));
-            txtNum.setTextColor(getResources().getColor(R.color.colorPrimary));
+            txtNum.setTextColor(getResources().getColor(R.color.black));
             txtNum.setTextSize(17);
             txtNum.setGravity(Gravity.CENTER);
             tr.addView(txtNum);

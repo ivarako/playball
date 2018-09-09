@@ -1,16 +1,11 @@
 package elfakrs.mosis.iva.playball;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,10 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
+
+import elfakrs.mosis.iva.playball.Model.Comment;
+import elfakrs.mosis.iva.playball.Model.User;
 
 public class CommentsFragment extends Fragment {
 
@@ -187,9 +182,9 @@ public class CommentsFragment extends Fragment {
                         txt.setTextSize(15);
                         txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         if(bck)
-                            txt.setBackgroundColor(getResources().getColor(R.color.lightGrey));
+                            txt.setBackgroundColor(getResources().getColor(R.color.lightYellow));
                         else
-                            txt.setBackgroundColor(getResources().getColor(R.color.grey));
+                            txt.setBackgroundColor(getResources().getColor(R.color.lightOrange));
                         bck = !bck;
 
                         Date date = comm.getDate();

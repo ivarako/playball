@@ -81,4 +81,10 @@ public class ProfileActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+       finish();
+       return true;
+    }
+
 }

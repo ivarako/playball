@@ -4,16 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyGamesActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/balls">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
         android:id="@+id/btnMyNewGame"
         android:text="New game"
-        android:background="@android:drawable/editbox_dropdown_light_frame"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="200dp"/>
+        android:background="@android:drawable/alert_light_frame"
+        android:layout_marginLeft="210dp"
+        android:textStyle="bold"/>
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llyMyGames"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center" />
+
+    </ScrollView>
 
 </LinearLayout>

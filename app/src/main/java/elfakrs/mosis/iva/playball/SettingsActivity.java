@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import elfakrs.mosis.iva.playball.Model.User;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private String userID;

@@ -1,4 +1,4 @@
-package elfakrs.mosis.iva.playball;
+package elfakrs.mosis.iva.playball.Model;
 import java.util.ArrayList;
 
 public class User {
@@ -7,9 +7,7 @@ public class User {
     private String email;
     private String password;
     private String name;
-    private String photo;
     private int radius;
-    private String phoneNumber;
     private String sex;
     private String favoriteSport;
     private String city;
@@ -25,20 +23,23 @@ public class User {
     private boolean volleyball;
     private boolean others;
     private boolean hasImg;
+    private float mass;
 
     private ArrayList<String> friendsID;
     private ArrayList<String> commentsID;
     private ArrayList<String> gamesID;
     private ArrayList<String> goingGamesID;
     private ArrayList<String> notifiedGames;
+    private ArrayList<String> myGames;
 
     public User(){
-
-        friendsID = new ArrayList<String>();
-        commentsID = new ArrayList<String >();
-        gamesID = new ArrayList<String>();
-        goingGamesID = new ArrayList<String>();
+        friendsID = new ArrayList<>();
+        commentsID = new ArrayList< >();
+        gamesID = new ArrayList<>();
+        goingGamesID = new ArrayList<>();
         notifiedGames = new ArrayList<>();
+        myGames = new ArrayList<>();
+        mass = 0;
     }
 
     public String getId() {
@@ -73,28 +74,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
     public int getRadius() {
         return radius;
     }
 
     public void setRadius(int radius) {
         this.radius = radius;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getSex() {
@@ -280,5 +265,26 @@ public class User {
     public void addNotifiedGame(String gameID){
         notifiedGames.add(gameID);
     }
+
+    public ArrayList<String> getMyGames() {
+        return myGames;
+    }
+
+    public void setMyGames(ArrayList<String> myGames) {
+        this.myGames = myGames;
+    }
+
+    public void addMyGame(String gameID){
+        this.myGames.add(gameID);
+    }
+
+    public float getMass() {
+        return mass;
+    }
+
+    public void setMass(float mass) {
+        this.mass = mass;
+    }
+
 
 }

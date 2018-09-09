@@ -30,6 +30,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import elfakrs.mosis.iva.playball.Model.User;
+
 
 public class FindFriendsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
@@ -47,6 +49,8 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     private User user;
+    private int friendsCount;
+    private boolean start = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,20 +65,32 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
         myRef = mFirebaseDatabase.getReference();
 
         DatabaseReference refUser = myRef.child("users").child(userID);
-        refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        refUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
+
+                if(start) {
+                    friendsCount = user.getFriendsID().size();
+                    start = false;
+                }
+                else {
+                    if(user.getFriendsID().size()>friendsCount){
+                        Toast.makeText(FindFriendsActivity.this, "You have one new friend!", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
 
-       DatabaseReference refFriends = myRef.child("users").child(userID).child("friendsID");
+      /* DatabaseReference refUser = myRef.child("users").child(userID).child("friendsID");
         refFriends.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(FindFriendsActivity.this, "You have one new friend!", Toast.LENGTH_LONG).show();
+               Toast.makeText(FindFriendsActivity.this, "You have one new friend!", Toast.LENGTH_LONG).show();
                 setResult(RESULT_OK);
                 finish();
             }
@@ -86,7 +102,7 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
             public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
-        });
+        });*/
 
         Button btnONOFF = (Button) findViewById(R.id.btnONOFF);
         btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off);
@@ -162,7 +178,7 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
     };
 
     // Create a BroadcastReceiver for ACTION_FOUND
-    private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
+   /* private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             // When discovery finds a device
@@ -185,13 +201,13 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
                 }
             }
         }
-    };
+    };*/
 
     /**
      * Broadcast Receiver for changes made to bluetooth states such as:
      * 1) Discoverability mode on/off or expire.
      */
-    private final BroadcastReceiver mBroadcastReceiver2 = new BroadcastReceiver() {
+  /*  private final BroadcastReceiver mBroadcastReceiver2 = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -223,7 +239,7 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
 
             }
         }
-    };
+    };*/
 
     /**
      * Broadcast Receiver for listing devices that are not yet paired
@@ -279,8 +295,8 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: called.");
         super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver1);
-        unregisterReceiver(mBroadcastReceiver2);
+        //unregisterReceiver(mBroadcastReceiver1);
+        //unregisterReceiver(mBroadcastReceiver2);
         unregisterReceiver(mBroadcastReceiver3);
         unregisterReceiver(mBroadcastReceiver4);
         //mBluetoothAdapter.cancelDiscovery();
@@ -312,15 +328,15 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(enableBTIntent);
 
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BTIntent);
+           // IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+           // registerReceiver(mBroadcastReceiver1, BTIntent);
         }
         if(mBluetoothAdapter.isEnabled()){
             Log.d(TAG, "enableDisableBT: disabling BT.");
             mBluetoothAdapter.disable();
 
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BTIntent);
+           // IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+           // registerReceiver(mBroadcastReceiver1, BTIntent);
         }
 
     }
@@ -333,8 +349,8 @@ public class FindFriendsActivity extends AppCompatActivity implements AdapterVie
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
         startActivity(discoverableIntent);
 
-        IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-        registerReceiver(mBroadcastReceiver2,intentFilter);
+        //IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
+        //registerReceiver(mBroadcastReceiver2,intentFilter);
 
     }
 

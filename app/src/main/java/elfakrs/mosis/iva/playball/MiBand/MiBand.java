@@ -1,4 +1,4 @@
-package elfakrs.mosis.iva.playball;
+package elfakrs.mosis.iva.playball.MiBand;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

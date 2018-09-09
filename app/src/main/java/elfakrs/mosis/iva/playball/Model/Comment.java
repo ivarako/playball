@@ -1,11 +1,8 @@
-package elfakrs.mosis.iva.playball;
+package elfakrs.mosis.iva.playball.Model;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.util.Date;
-import java.util.HashMap;
+
 
 @IgnoreExtraProperties
 public class Comment {

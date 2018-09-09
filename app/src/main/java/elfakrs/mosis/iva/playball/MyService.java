@@ -1,21 +1,17 @@
 package elfakrs.mosis.iva.playball;
 
-import android.Manifest;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
-import static elfakrs.mosis.iva.playball.MapsActivity.PERMISSION_ACCESS_FINE_LOCATION;
+import elfakrs.mosis.iva.playball.Model.Game;
+import elfakrs.mosis.iva.playball.Model.User;
 
 public class MyService extends Service {
 
@@ -122,12 +119,11 @@ public class MyService extends Service {
 
                        String sport = item.getValue(Game.class).getSport();
                        Date date = item.getValue(Game.class).getDateTime();
-                        Date currentDate = new Date();
-                        //year 3918???? u bazi 2018.
-                        Date dateTmp = new Date(date.getYear() - 1900, date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+                       Date tmpDate = new Date(date.getYear() - 1900, date.getMonth() - 1, date.getDate(), date.getHours(), date.getMinutes());
+                       Date currentDate = new Date();
 
                         boolean tmp = false;
-                        if(dateTmp.after(currentDate))
+                        if(tmpDate.after(currentDate))
                         {
                             switch (sport) {
                                 case "football": {
@@ -234,4 +230,6 @@ public class MyService extends Service {
             Log.d(TAG, "onStatusChanged: " + provider);
         }
     }
+
+
 }

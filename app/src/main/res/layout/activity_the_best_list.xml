@@ -13,30 +13,29 @@
         android:id="@+id/tblBest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:background="@color/grey">
+        android:background="@color/lightYellow">
 
         <TableRow>
 
             <TextView
                 android:text=" Rank "
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:text=" User "
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:text=" Score "
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:text=" Number of games"
-                android:textColor="@color/colorPrimary"
+                android:text=" Number of ratings"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
         </TableRow>

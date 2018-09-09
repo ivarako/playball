@@ -2,9 +2,9 @@ package elfakrs.mosis.iva.playball;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +26,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import elfakrs.mosis.iva.playball.Model.User;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -99,11 +101,18 @@ public class FriendsFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    if(user.getFriendsID().contains(ds.getKey()) && !friends.contains(ds.getKey())){
+                    if(ds.getValue(User.class).getFriendsID().contains(userID) && !friends.contains(ds.getKey())){
                         User friend = ds.getValue(User.class);
 
                         LinearLayout linearLayout = new LinearLayout(getActivity());
-                        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(900, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(900, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(90, 10, 10, 10);
+                        linearLayout.setPadding(15, 5, 5, 5);
+                        linearLayout.setGravity(Gravity.CENTER);
+                        linearLayout.setLayoutParams(params);
+                        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                        linearLayout.setBackgroundColor(getResources().getColor(R.color.lightYellow));
                         linearLayout.setTag(friend.getId());
                         linearLayout.setOnClickListener(FriendsFragment.this);
 
@@ -128,9 +137,11 @@ public class FriendsFragment extends Fragment implements View.OnClickListener{
                         }
 
                         TextView txtName = new TextView(getActivity());
-                        txtName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params2.setMargins(20, 0, 0, 0);
+                        txtName.setLayoutParams(params2);
                         txtName.setText(friend.getName());
-                        txtName.setTextSize(20);
+                        txtName.setTextSize(17);
                         txtName.setTextColor(getResources().getColor(R.color.black));
 
                         linearLayout.addView(txtName);
@@ -166,4 +177,5 @@ public class FriendsFragment extends Fragment implements View.OnClickListener{
             setData();
         }
     }
+
 }
