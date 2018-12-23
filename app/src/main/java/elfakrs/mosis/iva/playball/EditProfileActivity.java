@@ -77,10 +77,8 @@ public class EditProfileActivity extends AppCompatActivity {
         refUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    user = dataSnapshot.getValue(User.class);
-                    setData();
-                }
+                user = dataSnapshot.getValue(User.class);
+                setData();
             }
 
             @Override

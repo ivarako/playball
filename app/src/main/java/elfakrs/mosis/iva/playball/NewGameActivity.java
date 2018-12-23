@@ -196,7 +196,7 @@ public class NewGameActivity extends AppCompatActivity implements DatePickerDial
             idBundle.putString("usercreatorID", userID);
             i.putExtras(idBundle);
             startActivity(i);
-
+            setResult(android.app.Activity.RESULT_OK);
             finish();
         }
     }

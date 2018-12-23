@@ -68,9 +68,7 @@ public class CommentsFragment extends Fragment {
         refCurrentUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    authorName = dataSnapshot.getValue(User.class).getName();
-                }
+                authorName = dataSnapshot.getValue(User.class).getName();
             }
 
             @Override
@@ -82,9 +80,7 @@ public class CommentsFragment extends Fragment {
         refUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    user = dataSnapshot.getValue(User.class);
-                }
+                user = dataSnapshot.getValue(User.class);
                 setData();
             }
 

@@ -262,7 +262,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Bundle idBundle = new Bundle();
                 idBundle.putString("userid", userID);
                 i.putExtras(idBundle);
-                startActivity(i);
+                startActivityForResult(i, 1);
                 break;
             }
 

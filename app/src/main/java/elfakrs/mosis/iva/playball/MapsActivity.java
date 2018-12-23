@@ -183,9 +183,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         refUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
-                    user= dataSnapshot.getValue(User.class);
-                }
+                user= dataSnapshot.getValue(User.class);
+
                 setGames();
                 setFriends();
             }

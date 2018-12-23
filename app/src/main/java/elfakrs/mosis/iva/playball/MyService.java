@@ -52,9 +52,7 @@ public class MyService extends Service {
         refUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item: dataSnapshot.getChildren()) {
                     user = dataSnapshot.getValue(User.class);
-                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
@@ -181,9 +179,7 @@ public class MyService extends Service {
             refUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot item: dataSnapshot.getChildren()) {
-                        user = dataSnapshot.getValue(User.class);
-                    }
+                    user = dataSnapshot.getValue(User.class);
                     checkIfNearEvent(location);
                 }
                 @Override
